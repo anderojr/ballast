@@ -1,0 +1,13 @@
+name: rebalancing
+version: 0.1.0
+
+authors:
+  - anderojr <and.okuda@gmail.com>
+
+targets:
+  rebalancing:
+    main: src/rebalancing.cr
+
+crystal: '>= 1.21.1'
+
+license: MIT
