@@ -4,10 +4,17 @@ version: 0.1.0
 authors:
   - anderojr <and.okuda@gmail.com>
 
+description: |
+  Divide o aporte mensal entre os ativos da carteira, buscando as metas de alocação.
+
 targets:
   rebalancing:
-    main: src/rebalancing.cr
+    main: src/cli.cr
 
 crystal: '>= 1.21.1'
+
+development_dependencies:
+  ameba:
+    github: crystal-ameba/ameba
 
 license: MIT
