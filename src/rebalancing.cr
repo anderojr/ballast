@@ -1,5 +1,9 @@
 require "big"
 
+require "./rebalancing/errors"
+require "./rebalancing/currency"
+require "./rebalancing/format"
+
 # Calculate how to split monthly deposit among the portfolio's assets
 #
 # This file is just the library, the executable is located at src/cli.cr
