@@ -25,7 +25,7 @@ module Rebalancing
 
   # Special case: source requires a key but it hasn't been configured.
   # Separated so terminal can explain how to solve it.
-  class MissingApiKeyError < Error
+  class MissingApiKeyError < QuoteUnavailableError
   end
 
   # Invalid CLI option
@@ -33,6 +33,6 @@ module Rebalancing
   end
 
   # User exited execution (Ctrl+D) at middle of input
-  class CancelledError
+  class CancelledError < Error
   end
 end
