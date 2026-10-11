@@ -4,17 +4,17 @@ module Rebalancing
   class Error < Exception
   end
 
-  # Issue on wallet.yml. Collects all issues found to
+  # Problem on wallet.yml. Collects all problems found to
   # display them all at once, rather than one per execution
   class ConfigError < Error
-    getter issues : Array(String)
+    getter problems : Array(String)
 
-    def initialize(@issues : Array(String))
-      super(@issues.join("\n"))
+    def initialize(@problems : Array(String))
+      super(@problems.join("\n"))
     end
 
-    def self.new(issue : String)
-      new([issue])
+    def self.new(problem : String)
+      new([problem])
     end
   end
 

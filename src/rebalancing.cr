@@ -1,8 +1,14 @@
 require "big"
+require "yaml"
 
 require "./rebalancing/errors"
 require "./rebalancing/currency"
 require "./rebalancing/format"
+require "./rebalancing/decimal"
+require "./rebalancing/allocation"
+require "./rebalancing/asset"
+require "./rebalancing/portfolio"
+require "./rebalancing/config"
 
 # Calculate how to split monthly deposit among the portfolio's assets
 #
