@@ -1,4 +1,6 @@
 require "big"
+require "big/json"
+require "json"
 require "yaml"
 
 require "./rebalancing/errors"
@@ -12,6 +14,9 @@ require "./rebalancing/config"
 require "./rebalancing/quote"
 require "./rebalancing/plan"
 require "./rebalancing/rebalancer"
+require "./rebalancing/sources/source"
+require "./rebalancing/sources/awesome_api"
+require "./rebalancing/sources/finnhub"
 
 # Calculate how to split monthly deposit among the portfolio's assets
 #
