@@ -1,4 +1,4 @@
-module Rebalancing
+module Ballast
   # Source of all "expected" errors: CLI shows the message
   # and exits withou stacktrace. Every other exception is a bug
   class Error < Exception

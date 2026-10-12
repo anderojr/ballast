@@ -1,6 +1,6 @@
 require "http/client"
 
-module Rebalancing
+module Ballast
   module Sources
     # Something that knows how to quote a symbol. When it can't, it raises
     # `QuoteUnavailableError` with a short message, ready for the terminal.

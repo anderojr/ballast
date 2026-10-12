@@ -1,4 +1,4 @@
-module Rebalancing
+module Ballast
   module Sources
     # Exchange rate to BRL from AwesomeAPI. Free, no key.
     #

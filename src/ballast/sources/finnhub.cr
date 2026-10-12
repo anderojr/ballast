@@ -1,4 +1,4 @@
-module Rebalancing
+module Ballast
   module Sources
     # Quotes for US assets (stocks and ETFs) from Finnhub.
     #
@@ -13,7 +13,7 @@ module Rebalancing
       ENV_VAR = "FINNHUB_API_KEY"
 
       # The JSON body. Not called `Quote` so it doesn't shadow
-      # `Rebalancing::Quote` inside this class
+      # `Ballast::Quote` inside this class
       struct Payload
         include JSON::Serializable
         # Current price (or last close, when the market is closed)

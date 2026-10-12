@@ -1,4 +1,4 @@
-module Rebalancing
+module Ballast
   # Where a price came from. Shown in the terminal next to each quote.
   enum Origin
     AwesomeAPI

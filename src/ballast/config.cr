@@ -1,4 +1,4 @@
-module Rebalancing
+module Ballast
   # Shape of portfolio.yml. It only deserializes and validates,
   # the result is a Portfolio
   #
@@ -10,22 +10,22 @@ module Rebalancing
 
     DEFAULT_PATHS = [
       Path["portfolio.yml"],
-      Path.home / ".config" / "rebalancing" / "portfolio.yml",
+      Path.home / ".config" / "ballast" / "portfolio.yml",
     ]
 
     struct AssetConfig
       include YAML::Serializable
       include YAML::Serializable::Strict
 
-      @[YAML::Field(converter: Rebalancing::Decimal)]
+      @[YAML::Field(converter: Ballast::Decimal)]
       getter quantity : BigDecimal
 
       getter currency : Currency
 
-      @[YAML::Field(converter: Rebalancing::Decimal)]
+      @[YAML::Field(converter: Ballast::Decimal)]
       getter price : BigDecimal? = nil
 
-      @[YAML::Field(converter: Rebalancing::Decimal::Percent)]
+      @[YAML::Field(converter: Ballast::Decimal::Percent)]
       getter target : BigDecimal? = nil
 
       getter? residual : Bool = false
@@ -45,7 +45,7 @@ module Rebalancing
     end
 
     # Fallback USD/BRL rate, if AwesomeAPI doesn't answer
-    @[YAML::Field(converter: Rebalancing::Decimal)]
+    @[YAML::Field(converter: Ballast::Decimal)]
     getter usd_rate : BigDecimal? = nil
 
     getter assets : Hash(String, AssetConfig)

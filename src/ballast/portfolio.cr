@@ -1,4 +1,4 @@
-module Rebalancing
+module Ballast
   # The validated portfolio. This is what the rest of the program sees
   # The file format stays isolated in Config
   record Portfolio, assets : Array(Asset), last_known_usd_rate : BigDecimal? do

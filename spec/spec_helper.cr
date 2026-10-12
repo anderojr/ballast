@@ -1,5 +1,5 @@
 require "spec"
-require "../src/rebalancing"
+require "../src/ballast"
 
 def dec(value : String | Int32) : BigDecimal
   BigDecimal.new(value)
@@ -28,16 +28,16 @@ PORTFOLIO_YML = <<-YAML
       target: 16%
   YAML
 
-def sample_portfolio : Rebalancing::Portfolio
-  Rebalancing::Config.from_yaml(PORTFOLIO_YML).to_portfolio
+def sample_portfolio : Ballast::Portfolio
+  Ballast::Config.from_yaml(PORTFOLIO_YML).to_portfolio
 end
 
 # The same prices as portfolio.yml, as if they had come from the sources
-def sample_prices(usd_rate = "5.20", **overrides) : Rebalancing::Prices
+def sample_prices(usd_rate = "5.20", **overrides) : Ballast::Prices
   base = {"IVV" => "776.60", "VT" => "161.54", "VWRA11" => "116.61", "B5P211" => "110.12"}
   overrides.each { |ticker, price| base[ticker.to_s] = price }
-  Rebalancing::Prices.new(
-    Rebalancing::Quote.new(dec(usd_rate), Rebalancing::Origin::AwesomeAPI),
-    base.transform_values { |price| Rebalancing::Quote.new(dec(price), Rebalancing::Origin::Typed) },
+  Ballast::Prices.new(
+    Ballast::Quote.new(dec(usd_rate), Ballast::Origin::AwesomeAPI),
+    base.transform_values { |price| Ballast::Quote.new(dec(price), Ballast::Origin::Typed) },
   )
 end

@@ -1,4 +1,4 @@
-module Rebalancing
+module Ballast
   # Formatting and parsing numbers in Brazilian standard
   #
   # Does not depend on system locale (pt_BR.UTF-8 is not

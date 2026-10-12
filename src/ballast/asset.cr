@@ -1,4 +1,4 @@
-module Rebalancing
+module Ballast
   # Where an asset's price comes from at run time.
   enum PriceSource
     # Typed in the terminal (B3: the broker is real-time, the free APIs are not).

@@ -1,14 +1,14 @@
-name: rebalancing
+name: ballast
 version: 0.1.0
 
 authors:
   - anderojr <and.okuda@gmail.com>
 
 description: |
-  Divide o aporte mensal entre os ativos da carteira, buscando as metas de alocação.
+  A Crystal CLI that tells you what to buy each month to keep your portfolio on target.
 
 targets:
-  rebalancing:
+  ballast:
     main: src/cli.cr
 
 crystal: '>= 1.21.1'

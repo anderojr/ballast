@@ -1,14 +1,14 @@
 require "./spec_helper"
 
-private def plan(amount : String, portfolio = sample_portfolio, prices = sample_prices) : Rebalancing::Plan
-  Rebalancing::Rebalancer.new(portfolio, prices).plan(dec(amount))
+private def plan(amount : String, portfolio = sample_portfolio, prices = sample_prices) : Ballast::Plan
+  Ballast::Rebalancer.new(portfolio, prices).plan(dec(amount))
 end
 
-private def shares(plan : Rebalancing::Plan) : Hash(String, Int32)
+private def shares(plan : Ballast::Plan) : Hash(String, Int32)
   plan.positions.to_h { |position| {position.asset.ticker, position.shares} }
 end
 
-describe Rebalancing::Rebalancer do
+describe Ballast::Rebalancer do
   it "matches the expected result" do
     result = plan("1500")
     shares(result).should eq({"IVV" => 0, "VT" => 0, "VWRA11" => 10, "B5P211" => 3})
@@ -63,9 +63,9 @@ describe Rebalancing::Rebalancer do
         B: {quantity: 0, currency: BRL, target: 10%}
         R: {quantity: 100, currency: BRL, residual: true}
       YAML
-    portfolio = Rebalancing::Config.from_yaml(yaml).to_portfolio
-    one = Rebalancing::Quote.new(dec(1), Rebalancing::Origin::Typed)
-    prices = Rebalancing::Prices.new(nil, {"A" => one, "B" => one, "R" => one})
+    portfolio = Ballast::Config.from_yaml(yaml).to_portfolio
+    one = Ballast::Quote.new(dec(1), Ballast::Origin::Typed)
+    prices = Ballast::Prices.new(nil, {"A" => one, "B" => one, "R" => one})
 
     # total after contribution 200 → gaps A=60, B=20 (sum 80 ≤ 100): each gets its own
     shares(plan("100", portfolio, prices)).should eq({"A" => 60, "B" => 20, "R" => 20})
@@ -84,10 +84,10 @@ describe Rebalancing::Rebalancer do
     expect_raises(ArgumentError) { plan("0") }
   end
 
-  describe Rebalancing::Plan do
+  describe Ballast::Plan do
     it "computes weights that add up to 100%" do
       result = plan("1500")
-      result.positions.sum(Rebalancing::ZERO) { |position| result.weight_after(position) }.round(10).should eq 1
+      result.positions.sum(Ballast::ZERO) { |position| result.weight_after(position) }.round(10).should eq 1
     end
 
     it "shows how much is still missing to the target after buying" do

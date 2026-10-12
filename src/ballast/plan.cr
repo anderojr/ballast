@@ -1,4 +1,4 @@
-module Rebalancing
+module Ballast
   ZERO = BigDecimal.new(0)
 
   # One line of the plan: the asset, where it stood and how much to buy

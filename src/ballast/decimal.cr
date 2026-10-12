@@ -1,4 +1,4 @@
-module Rebalancing
+module Ballast
   # YAML converters for BigDecimal, which lacks native support for
   # YAML::Serializable. Reads the scalar text directly, without passing
   # through Float64, so 0.50127394 is preserved exactly

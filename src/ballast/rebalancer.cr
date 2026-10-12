@@ -1,4 +1,4 @@
-module Rebalancing
+module Ballast
   # Decides how many shares of each asset to buy. No I/O: takes the
   # portfolio and the prices and returns a `Plan`.
   #

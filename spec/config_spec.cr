@@ -1,9 +1,9 @@
 require "./spec_helper"
 
 private def problems(yaml : String) : Array(String)
-  Rebalancing::Config.from_yaml(yaml).to_portfolio
+  Ballast::Config.from_yaml(yaml).to_portfolio
   [] of String
-rescue ex : Rebalancing::ConfigError
+rescue ex : Ballast::ConfigError
   ex.problems
 end
 
@@ -22,11 +22,11 @@ private def asset(extra : String, currency = "BRL") : String
     YAML
 end
 
-describe Rebalancing::Config do
+describe Ballast::Config do
   it "builds the portfolio in file order, with the right roles" do
     portfolio = sample_portfolio
     portfolio.assets.map(&.ticker).should eq %w[IVV VT VWRA11 B5P211]
-    portfolio["IVV"].allocation.should be_a Rebalancing::Allocation::Hold
+    portfolio["IVV"].allocation.should be_a Ballast::Allocation::Hold
     portfolio["VWRA11"].residual?.should be_true
     portfolio["B5P211"].target_fraction.should eq dec("0.16")
     portfolio["IVV"].quantity.should eq dec("0.50127394")
@@ -41,11 +41,11 @@ describe Rebalancing::Config do
 
   it "accepts target as a fraction" do
     problems(asset("target: 0.16")).should be_empty
-    Rebalancing::Config.from_yaml(asset("target: 0.16")).to_portfolio["A"].target_fraction.should eq dec("0.16")
+    Ballast::Config.from_yaml(asset("target: 0.16")).to_portfolio["A"].target_fraction.should eq dec("0.16")
   end
 
   it "accepts `price_source: manual` on a USD asset" do
-    portfolio = Rebalancing::Config.from_yaml(asset("price_source: manual", currency: "USD")).to_portfolio
+    portfolio = Ballast::Config.from_yaml(asset("price_source: manual", currency: "USD")).to_portfolio
     portfolio["A"].price_source.manual?.should be_true
   end
 
@@ -91,19 +91,19 @@ describe Rebalancing::Config do
 
   it "rejects unknown keys (catches typos)" do
     expect_raises(YAML::ParseException, /targets/) do
-      Rebalancing::Config.from_yaml(asset("targets: 16%"))
+      Ballast::Config.from_yaml(asset("targets: 16%"))
     end
   end
 
   it "rejects badly formatted numbers" do
     expect_raises(YAML::ParseException, /expected a number/) do
-      Rebalancing::Config.from_yaml(asset("").sub("price: 10", "price: 10,5"))
+      Ballast::Config.from_yaml(asset("").sub("price: 10", "price: 10,5"))
     end
   end
 
   it "turns a missing file into ConfigError" do
-    expect_raises(Rebalancing::ConfigError, /not found/) do
-      Rebalancing::Config.load(Path["/does/not/exist.yml"])
+    expect_raises(Ballast::ConfigError, /not found/) do
+      Ballast::Config.load(Path["/does/not/exist.yml"])
     end
   end
 end

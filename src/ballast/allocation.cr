@@ -1,4 +1,4 @@
-module Rebalancing
+module Ballast
   # The role of each asset in the month's contribution
   #
   # This is a union of types, not a enum: Target carries the target fraction
