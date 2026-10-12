@@ -17,6 +17,7 @@ require "./ballast/rebalancer"
 require "./ballast/sources/source"
 require "./ballast/sources/awesome_api"
 require "./ballast/sources/finnhub"
+require "./ballast/quoter"
 
 # Calculate how to split monthly deposit among the portfolio's assets
 #

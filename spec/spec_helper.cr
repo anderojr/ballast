@@ -5,6 +5,30 @@ def dec(value : String | Int32) : BigDecimal
   BigDecimal.new(value)
 end
 
+module Ballast
+  # Make-believe source: returns the configured price, fails with the
+  # configured message, and can take its time to simulate a slow network.
+  class FakeSource < Sources::Source
+    getter calls = 0
+
+    def initialize(@answers : Hash(String, BigDecimal | String), @delay : Time::Span = Time::Span.zero, @name = "Fake")
+    end
+
+    def name : String
+      @name
+    end
+
+    def quote(symbol : String) : Quote
+      @calls += 1
+      sleep @delay unless @delay.zero?
+      case answer = @answers[symbol]? || "no #{symbol}"
+      in BigDecimal then Quote.new(answer, Origin::Finnhub)
+      in String     then raise QuoteUnavailableError.new(answer)
+      end
+    end
+  end
+end
+
 PORTFOLIO_YML = <<-YAML
   usd_rate: 5.20
   assets:
