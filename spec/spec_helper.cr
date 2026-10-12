@@ -31,3 +31,13 @@ PORTFOLIO_YML = <<-YAML
 def sample_portfolio : Rebalancing::Portfolio
   Rebalancing::Config.from_yaml(PORTFOLIO_YML).to_portfolio
 end
+
+# The same prices as portfolio.yml, as if they had come from the sources
+def sample_prices(usd_rate = "5.20", **overrides) : Rebalancing::Prices
+  base = {"IVV" => "776.60", "VT" => "161.54", "VWRA11" => "116.61", "B5P211" => "110.12"}
+  overrides.each { |ticker, price| base[ticker.to_s] = price }
+  Rebalancing::Prices.new(
+    Rebalancing::Quote.new(dec(usd_rate), Rebalancing::Origin::AwesomeAPI),
+    base.transform_values { |price| Rebalancing::Quote.new(dec(price), Rebalancing::Origin::Typed) },
+  )
+end
