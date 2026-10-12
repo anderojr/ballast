@@ -1,6 +1,8 @@
 require "spec"
 require "../src/ballast"
 
+Colorize.enabled = false
+
 def dec(value : String | Int32) : BigDecimal
   BigDecimal.new(value)
 end

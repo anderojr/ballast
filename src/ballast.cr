@@ -18,6 +18,10 @@ require "./ballast/sources/source"
 require "./ballast/sources/awesome_api"
 require "./ballast/sources/finnhub"
 require "./ballast/quoter"
+require "./ballast/tui/style"
+require "./ballast/tui/spinner"
+require "./ballast/tui/prompt"
+require "./ballast/tui/report"
 
 # Calculate how to split monthly deposit among the portfolio's assets
 #
