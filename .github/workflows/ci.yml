@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install system libraries
+        run: sudo apt-get update && sudo apt-get install -y libgmp-dev libyaml-dev libssl-dev libpcre2-dev zlib1g-dev
+
+      - uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: 1.21.1
+
+      - run: shards install
+
+      - name: Format
+        run: crystal tool format --check src spec
+
+      - name: Specs
+        run: crystal spec
+
+      - name: Lint
+        run: |
+          [ -x bin/ameba ] || (mkdir -p bin && crystal build lib/ameba/bin/ameba.cr -o bin/ameba --no-debug)
+          bin/ameba
+
+      - name: Build
+        run: shards build --no-debug
