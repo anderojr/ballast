@@ -119,7 +119,7 @@ module Ballast
       batch = @quoter.start(online.map(&.request)) unless options.offline || online.empty?
 
       amount, typed = this_month(portfolio, options)
-      resolved = quotes(online, batch, options)
+      resolved = quotes(online, batch, options, path.basename)
 
       prices = Prices.new(resolved.delete(USD_BRL), typed.merge(resolved))
       plan = Rebalancer.new(portfolio, prices).plan(amount)
@@ -166,7 +166,7 @@ module Ballast
       @output << "   " << left(label, width) << muted(currency.symbol) << " " << strong(Format.price(value)) << '\n'
     end
 
-    private def quotes(online : Array(Online), batch : Quoter::Batch?, options : Options) : Hash(String, Quote)
+    private def quotes(online : Array(Online), batch : Quoter::Batch?, options : Options, file : String) : Hash(String, Quote)
       return {} of String => Quote if online.empty?
 
       section(@output, "QUOTES", options.offline ? "offline mode" : nil)
@@ -189,7 +189,7 @@ module Ballast
                   result
                 in QuoteUnavailableError
                   missing_key ||= result.is_a?(MissingApiKeyError)
-                  fallback(item, result, width, options)
+                  fallback(item, result, width, options, file)
                 end
         {item.key, quote}
       end
@@ -208,14 +208,14 @@ module Ballast
 
     # The source failed: warn, then ask for the price (suggesting the file's)
     # or, with `-y`, use the file's right away
-    private def fallback(item : Online, problem : QuoteUnavailableError, width : Int32, options : Options) : Quote
+    private def fallback(item : Online, problem : QuoteUnavailableError, width : Int32, options : Options, file : String) : Quote
       reason = problem.message || "failed"
       # With `-y` and a price in the file, use it without asking
       automatic = options.ask ? nil : item.fallback
 
       if options.offline && automatic
         @output << "   " << warning("▲ ") << strong(left(item.key, width))
-        @output << right(Format.price(automatic, item.currency), 13) << "   " << muted("portfolio.yml (offline)") << '\n'
+        @output << right(Format.price(automatic, item.currency), 13) << "   " << muted("#{file} (offline)") << '\n'
         return Quote.new(automatic, Origin::PortfolioFile, failure: reason)
       end
 
@@ -227,7 +227,7 @@ module Ballast
       end
 
       if automatic
-        @output << "     " << muted("↳ using #{Format.price(automatic, item.currency)} from portfolio.yml") << '\n'
+        @output << "     " << muted("↳ using #{Format.price(automatic, item.currency)} from #{file}") << '\n'
         Quote.new(automatic, Origin::PortfolioFile, failure: reason)
       else
         value = @prompt.amount(left(item.key, width), item.currency, item.fallback, indent: 5)
