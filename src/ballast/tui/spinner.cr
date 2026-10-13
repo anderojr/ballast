@@ -26,13 +26,16 @@ module Ballast
             when timeout(INTERVAL)
             end
           end
+          io << "\r\e[2K"
+          io.flush
+          stopped.send(nil)
+        end
 
-          begin
-            yield
-          ensure
-            stop.send(nil)
-            stopped.receive
-          end
+        begin
+          yield
+        ensure
+          stop.send(nil)
+          stopped.receive
         end
       end
     end
