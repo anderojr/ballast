@@ -47,7 +47,7 @@ module Ballast
     def failed : Array({String, Quote})
       all = assets.to_a
       usd_rate.try { |quote| all.unshift({"USD/BRL", quote}) }
-      all.select { |_, quote| quote.failue }
+      all.select { |_, quote| quote.failure }
     end
   end
 end

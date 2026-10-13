@@ -52,7 +52,7 @@ module Ballast
         end
 
         # Targets first, residual last: that's the order the decision is made in.
-        targets, rest = @plan.purchase.partition { |position| !position.asset.residual? }
+        targets, rest = @plan.purchases.partition { |position| !position.asset.residual? }
         (targets + rest).each do |position|
           # 3 + 2 + 4 + 4 + 3 + 8 + 16 = 40 visible columns before the amount
           @io << "   " << title("▸ ") << "buy " << strong(right(position.shares.to_s, 4)) << " × "
