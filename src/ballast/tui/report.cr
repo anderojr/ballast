@@ -22,8 +22,8 @@ module Ballast
       end
 
       private def current_portfolio : Nil
-        section(@io, "CURRENT PORFOLIO", "total #{Format.money(@plan.total_before)}")
-        @io << "   " << muted(left("asset", 0) + left("role", 13) + right("shares", 10) + right("price", 15) + right("value", 15) + right("weight", 7)) << '\n'
+        section(@io, "CURRENT PORTFOLIO", "total #{Format.money(@plan.total_before)}")
+        @io << "   " << muted(left("asset", 9) + left("role", 13) + right("shares", 10) + right("price", 15) + right("value", 15) + right("weight", 7)) << '\n'
 
         @plan.positions.each do |position|
           asset = position.asset
