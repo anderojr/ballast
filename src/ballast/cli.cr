@@ -203,7 +203,7 @@ module Ballast
     private def quote_line(item : Online, quote : Quote, width : Int32) : Nil
       at = quote.time.try { |time| " · #{time.to_local.to_s("%d/%m %H:%M")}" }
       @output << "   " << ok("✔ ") << strong(left(item.key, width))
-      @output << right(Format.price(quote.value, item.currency), 13) << "   " << muted("#{quote.origin.label}#{at}") << '\n'
+      @output << right(Format.price(quote.value, item.currency), 13) << "   " << muted("#{left(quote.origin.label, 10)}#{at}") << '\n'
     end
 
     # The source failed: warn, then ask for the price (suggesting the file's)
