@@ -1,0 +1,39 @@
+# Portfolio for the monthly split.
+#
+# Role of each asset in the contribution:
+#   target: 16%       gets contribution until it reaches this share of the total
+#   residual: true    gets what's left after the targets (exactly one)
+#   (neither)         only counts towards the total, gets no contribution
+#
+# USD assets are quoted on Finnhub (needs FINNHUB_API_KEY).
+# Their `price` is only used if the API fails.
+# BRL assets have a manual price: the program asks for it at run time and
+# suggests the one here. To force one or the other: `price_source: manual | finnhub`.
+#
+# The values below are made up. Copy this file to `portfolio.yml` and
+# put your own.
+
+usd_rate: 5.20 # fallback, in case AwesomeAPI doesn't answer
+
+assets:
+  IVV:
+    quantity: 0.50127394
+    currency: USD
+    price: 776.60
+
+  VT:
+    quantity: 1.05
+    currency: USD
+    price: 161.54
+
+  VWRA11:
+    quantity: 80
+    currency: BRL
+    price: 116.61
+    residual: true
+
+  B5P211:
+    quantity: 20
+    currency: BRL
+    price: 110.12
+    target: 16%
