@@ -72,7 +72,7 @@ module Ballast
 
         empty = Array.new(width - filled.size, ' ')
         if mark
-          i = (mark.to_f * width).round.to_i - filled.size
+          i = (mark.to_f * width).floor.to_i - filled.size
           empty[i] = '┊' if 0 <= i < empty.size
         end
 
