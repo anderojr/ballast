@@ -17,10 +17,10 @@ private def run_cli(argv : Array(String), input = "", usd_rate = "5.20",
   {code, output.to_s, errors.to_s}
 end
 
-private def with_portfolio(yaml = PORTFOLIO_YML, &)
+private def with_portfolio(yaml = PORTFOLIO_YML, name = "portfolio.yml", &)
   dir = File.tempname("ballast")
   Dir.mkdir(dir)
-  path = File.join(dir, "portfolio.yml")
+  path = File.join(dir, name)
   File.write(path, yaml)
   yield path
 ensure
@@ -114,5 +114,16 @@ describe Ballast::CLI do
   it "shows help and version" do
     run_cli(["--help"])[1].should contain "FINNHUB_API_KEY"
     run_cli(["--version"])[1].should eq "ballast #{Ballast::VERSION}\n"
+  end
+
+  it "names the portfolio file it actually read" do
+    with_portfolio(name: "other.yml") do |cfg|
+      _, output, _ = run_cli(["-c", cfg, "-a", "1500", "-y", "--offline"])
+      output.should contain "other.yml (offline)"
+
+      foreign = {"IVV" => "timed out", "VT" => dec("161.54")} of String => BigDecimal | String
+      _, output, _ = run_cli(["-c", cfg, "-a", "1500", "-y"], foreign: foreign)
+      output.should contain "from other.yml"
+    end
   end
 end
