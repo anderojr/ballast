@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="ballast">
+  <defs>
+    <clipPath id="tile"><rect width="512" height="512" rx="112"/></clipPath>
+    <clipPath id="hull"><path d="M118 198 H394 C382 252 344 288 256 288 C168 288 130 252 118 198 Z"/></clipPath>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#123650"/>
+      <stop offset="1" stop-color="#0A1C2C"/>
+    </linearGradient>
+  </defs>
+  <g clip-path="url(#tile)">
+    <rect width="512" height="512" fill="#0D1826"/>
+    <rect y="264" width="512" height="248" fill="url(#sea)"/>
+    <g transform="translate(0 -8)">
+      <!-- sails and mast -->
+      <path d="M262 92 V188 H346 Z" fill="#3FC8D8"/>
+      <path d="M250 122 V188 H188 Z" fill="#F2EDE4" opacity=".92"/>
+      <rect x="250" y="84" width="12" height="116" rx="3" fill="#F2EDE4"/>
+      <!-- hull, with the part under water tinted -->
+      <path d="M118 198 H394 C382 252 344 288 256 288 C168 288 130 252 118 198 Z" fill="#F2EDE4"/>
+      <rect x="100" y="276" width="312" height="20" fill="#123650" opacity=".35" clip-path="url(#hull)"/>
+      <!-- keel -->
+      <rect x="249" y="286" width="14" height="64" fill="#F2EDE4" opacity=".5"/>
+      <!-- waterline -->
+      <rect x="0" y="272" width="512" height="8" fill="#3FC8D8"/>
+      <!-- the ballast: a cut crystal -->
+      <g stroke="#0D1826" stroke-width="2.5" stroke-linejoin="round">
+        <path d="M206.6 348 L175.4 371.4 H230 Z" fill="#8FE6EE"/>
+        <path d="M206.6 348 H305.4 L282 371.4 H230 Z" fill="#C9F4F7"/>
+        <path d="M305.4 348 L336.6 371.4 H282 Z" fill="#5BD3E0"/>
+        <path d="M175.4 371.4 H230 L256 457 Z" fill="#2AA6B8"/>
+        <path d="M230 371.4 H282 L256 457 Z" fill="#3FC8D8"/>
+        <path d="M282 371.4 H336.6 L256 457 Z" fill="#C84C9E"/>
+      </g>
+    </g>
+  </g>
+  <rect x="3" y="3" width="506" height="506" rx="109" fill="none" stroke="#3FC8D8" stroke-opacity=".2" stroke-width="6"/>
+</svg>
