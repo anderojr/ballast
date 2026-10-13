@@ -29,5 +29,5 @@ require "./ballast/cli"
 # This file is just the library, the executable is located at src/cli.cr
 # This allows the specs to require it without triggering the program
 module Ballast
-  VERSION = "0.1.0"
+  VERSION = "0.1.1"
 end
