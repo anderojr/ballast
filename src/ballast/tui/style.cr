@@ -66,8 +66,8 @@ module Ballast
       # Horizontal bar with 1/8-character resolution. *mark* draws a `┊`
       # where the target sits, if it falls in the empty part.
       def bar(io : IO, fraction : Number, width : Int32, color : Colorize::ColorANSI, mark : Number? = nil) : Nil
-        eights = (fraction.to_f * width * 8).round.to_i.clamp(0, width * 8)
-        full, rest = eights.divmod(8)
+        eighths = (fraction.to_f * width * 8).round.to_i.clamp(0, width * 8)
+        full, rest = eighths.divmod(8)
         filled = "█" * full + BLOCKS[rest]
 
         empty = Array.new(width - filled.size, ' ')

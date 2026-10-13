@@ -41,7 +41,7 @@ module Ballast
       end
       0
     rescue ex : UsageError
-      failure(ex.message, "rebalancing --help lists the options")
+      failure(ex.message, "ballast --help lists the options")
       2
     rescue ex : ConfigError
       @errors.puts

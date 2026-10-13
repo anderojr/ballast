@@ -1,10 +1,10 @@
 module Ballast
   # Source of all "expected" errors: CLI shows the message
-  # and exits withou stacktrace. Every other exception is a bug
+  # and exits without stack trace. Every other exception is a bug
   class Error < Exception
   end
 
-  # Problem on wallet.yml. Collects all problems found to
+  # Problem on portfolio.yml. Collects all problems found to
   # display them all at once, rather than one per execution
   class ConfigError < Error
     getter problems : Array(String)

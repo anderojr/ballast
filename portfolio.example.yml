@@ -1,7 +1,7 @@
 # Portfolio for the monthly split.
 #
 # Role of each asset in the contribution:
-#   target: 16%       gets contribution until it reaches this share of the total
+#   target: 20%       gets contribution until it reaches this share of the total
 #   residual: true    gets what's left after the targets (exactly one)
 #   (neither)         only counts towards the total, gets no contribution
 #
@@ -36,4 +36,4 @@ assets:
     quantity: 20
     currency: BRL
     price: 110.12
-    target: 16%
+    target: 20%
