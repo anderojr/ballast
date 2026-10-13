@@ -22,6 +22,7 @@ require "./ballast/tui/style"
 require "./ballast/tui/spinner"
 require "./ballast/tui/prompt"
 require "./ballast/tui/report"
+require "./ballast/cli"
 
 # Calculate how to split monthly deposit among the portfolio's assets
 #
