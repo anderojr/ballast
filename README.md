@@ -125,7 +125,7 @@ assets:
     quantity: 20
     currency: BRL
     price: 110.12
-    target: 16% # or 0.16
+    target: 20% # or 0.2
 ```
 
 | field          | required    | what it is                                                      |
