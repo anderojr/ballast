@@ -76,7 +76,27 @@ Numbers follow the Brazilian format on screen and on input (`R$ 1.500,00`);
 
 ## Install
 
-Needs Crystal 1.21+.
+On Linux (x86_64 or arm64) you don't need Crystal. The script downloads the
+latest release, checks its SHA-256 and installs `ballast` into `~/.local/bin`:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/anderojr/ballast/main/install.sh | sh
+```
+
+Two environment variables change what it does:
+
+- `BALLAST_INSTALL_DIR` installs somewhere else (default `~/.local/bin`).
+- `BALLAST_VERSION` installs a specific release, like `v0.2.0`, instead of the
+  latest.
+
+The checksum catches a corrupted download. It comes from the same release as
+the binary, so it isn't a signature. If you'd rather read the script before
+running it, it's [`install.sh`](install.sh).
+
+### Build from source
+
+Needs Crystal 1.21+. This is also the way on macOS, which has no prebuilt
+binary yet.
 
 ```sh
 git clone https://github.com/anderojr/ballast.git
@@ -178,8 +198,8 @@ fit other people's:
       allocation moved over time.
 - [ ] **Optional B3 quotes.** An API source for B3 prices, for people fine with
       the delay.
-- [ ] **Prebuilt binaries.** Releases for Linux and macOS, so installing doesn't
-      need Crystal.
+- [ ] **macOS binaries.** Linux releases already ship prebuilt; macOS still
+      needs Crystal.
 
 ## Development
 

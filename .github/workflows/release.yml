@@ -1,0 +1,61 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - runner: ubuntu-24.04
+            arch: x86_64
+          - runner: ubuntu-24.04-arm
+            arch: arm64
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build static binary
+        run: |
+          docker run --rm -v "$PWD":/src -w /src crystallang/crystal:1.21.1-alpine sh -c '
+            apk add --no-cache gmp-static
+            shards install --production
+            shards build --release --static --no-debug
+            strip bin/ballast
+          '
+
+      - name: Package
+        run: |
+          name="ballast-${GITHUB_REF_NAME}-linux-${{ matrix.arch }}"
+          mkdir "$name"
+          cp bin/ballast LICENSE README.md "$name/"
+          tar czf "$name.tar.gz" "$name"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.arch }}
+          path: ballast-*.tar.gz
+
+  release:
+    needs: build
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+
+      - name: Checksums
+        run: sha256sum *.tar.gz > SHA256SUMS
+
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" \
+            --generate-notes --verify-tag \
+            *.tar.gz SHA256SUMS
