@@ -17,20 +17,21 @@ jobs:
           - runner: ubuntu-24.04-arm
             arch: arm64
     runs-on: ${{ matrix.runner }}
-    container: crystallang/crystal:1.21.1-alpine
     steps:
       - uses: actions/checkout@v4
 
       - name: Build static binary
         run: |
-          apk add --no-cache gmp-static
-          shards install --production
-          shards build --release --static --no-debug
+          docker run --rm -v "$PWD":/src -w /src crystallang/crystal:1.21.1-alpine sh -c '
+            apk add --no-cache gmp-static
+            shards install --production
+            shards build --release --static --no-debug
+            strip bin/ballast
+          '
 
       - name: Package
         run: |
           name="ballast-${GITHUB_REF_NAME}-linux-${{ matrix.arch }}"
-          strip bin/ballast
           mkdir "$name"
           cp bin/ballast LICENSE README.md "$name/"
           tar czf "$name.tar.gz" "$name"
