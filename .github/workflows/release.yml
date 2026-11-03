@@ -9,7 +9,14 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - runner: ubuntu-24.04
+            arch: x86_64
+          - runner: ubuntu-24.04-arm
+            arch: arm64
+    runs-on: ${{ matrix.runner }}
     container: crystallang/crystal:1.21.1-alpine
     steps:
       - uses: actions/checkout@v4
@@ -22,7 +29,7 @@ jobs:
 
       - name: Package
         run: |
-          name="ballast-${GITHUB_REF_NAME}-linux-x86_64"
+          name="ballast-${GITHUB_REF_NAME}-linux-${{ matrix.arch }}"
           strip bin/ballast
           mkdir "$name"
           cp bin/ballast LICENSE README.md "$name/"
@@ -30,12 +37,12 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: linux-x86_64
+          name: ${{ matrix.arch }}
           path: ballast-*.tar.gz
 
   release:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/download-artifact@v4
         with:
