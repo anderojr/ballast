@@ -1,6 +1,8 @@
 #!/bin/sh
 set -eu
 
+source_url=https://github.com/anderojr/ballast#build-from-source
+
 die() {
   echo "error: $*" >&2
   exit 1
@@ -11,7 +13,7 @@ detect_platform() {
 
   case "$os" in
   Linux) os=linux ;;
-  *) die "unsupported OS: $os (supported: Linux)" ;;
+  *) die "unsupported OS: $os (supported: Linux); build from source: $source_url" ;;
   esac
 
   machine=$(uname -m)
@@ -19,7 +21,7 @@ detect_platform() {
   case "$machine" in
   x86_64 | amd64) arch=x86_64 ;;
   aarch64 | arm64) arch=arm64 ;;
-  *) die "unsupported architecture: $machine (supported: x86_64, arm64)" ;;
+  *) die "unsupported architecture: $machine (supported: x86_64, arm64); build from source: $source_url" ;;
   esac
 }
 
