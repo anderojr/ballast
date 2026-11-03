@@ -1,0 +1,53 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: crystallang/crystal:1.21.1-alpine
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build static binary
+        run: |
+          apk add --no-cache gmp-static
+          shards install --production
+          shards build --release --static --no-debug
+
+      - name: Package
+        run: |
+          name="ballast-${GITHUB_REF_NAME}-linux-x86_64"
+          strip bin/ballast
+          mkdir "$name"
+          cp bin/ballast LICENSE README.md "$name/"
+          tar czf "$name.tar.gz" "$name"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-x86_64
+          path: ballast-*.tar.gz
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+
+      - name: Checksums
+        run: sha256sum *.tar.gz > SHA256SUMS
+
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" \
+            --generate-notes --verify-tag \
+            *.tar.gz SHA256SUMS
